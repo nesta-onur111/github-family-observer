@@ -5,7 +5,7 @@
 
 from observing.bot.bot import post_to_discord
 from observing.utils.database import load_previous_main_repo, update_main_repo, update_database_with_branches
-from observing.observer.ob_prs import find_open_merged_pr
+from observing.observer.ob_prs import pr_observer
 from observing.observer.ob_branch import branch_movements
 from github import Github
 from dotenv import load_dotenv
@@ -49,7 +49,7 @@ def run(config):
     previous_state["prs"] = {int(key): value for key, value in previous_state["prs"].items()}
 
     # Find open and merged pull requests
-    report_prs = find_open_merged_pr(previous_state, current_state, main_repo)
+    report_prs = pr_observer(previous_state, current_state, main_repo)
 
     print("Merged PR report")
     post_to_discord(report_prs, discord_webhook_url)
