@@ -6,7 +6,7 @@
 # - add_indentation: Adds indentation to each line of a given text.
 # - fetch_pr_details: Retrieves details of a pull request, including its title, URL, author, and commits.
 # - format_report_prs: Formats a report for merged, unmerged, and open pull requests.
-# - pr_observer: Finds open, merged, and unmerged pull requests by comparing previous and current states.
+# - pr_observer: Finds open, merged, reopen and unmerged pull requests by comparing previous and current states.
 
 
 def add_indentation(text, spaces=4):
@@ -103,7 +103,7 @@ def format_report_prs(merged_prs, unmerged_prs, open_prs, reopen_prs, repo):
     embed = {
         "title": "🚀 __ PULL REQUEST REPORT __ 🚀",
         "description": "This is a report of pull request activities.",
-        "color": 32255,  # Hex color code in decimal
+        "color": 32255,
         "fields": fields,
     }
     if not fields:

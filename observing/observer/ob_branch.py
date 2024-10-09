@@ -223,7 +223,7 @@ def generate_report(new_branches, updated_branches, deleted_branches, rebased_br
 
     if deleted_branches:
         deleted_field = {
-            "name": "\n\n🌿 **Deleted branches** 🌿\n",
+            "name": "\n\n🗑️ **Deleted branches** 🗑️\n",
             "value": "",
             "inline": False
         }
