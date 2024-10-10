@@ -1,39 +1,52 @@
-# While you can't directly use Python to interact with Git, you can use the subprocess module to execute Git commands and parse the output. Here's a way to find rebased commits using Python:
-# Python
-
-
 import subprocess
 
 def find_rebased_commits(branch_name):
     """Finds commits that were rebased onto the specified branch."""
 
-    # Get the original base of the branch
-    original_base = subprocess.check_output(
-        ["git", "merge-base", branch_name, f"origin/{branch_name}"]
-    ).decode().strip()
-
-    # Get all commits on the branch since the original base
-    commits = subprocess.check_output(
-        ["git", "log", f"{original_base}..{branch_name}", "--format=%H"]
-    ).decode().splitlines()
-
-    rebased_commits = []
-    for commit in commits:
-        # Check if the commit's parent is different from the original parent
-        original_parent = subprocess.check_output(
-            ["git", "rev-parse", f"{commit}^"]
+    try:
+        # Get the original base of the branch
+        original_base = subprocess.check_output(
+            ["git", "merge-base", branch_name, f"origin/{branch_name}"]
         ).decode().strip()
-        current_parent = subprocess.check_output(
-            ["git", "rev-parse", f"{commit}~1"]
+        print(f"Original base: {original_base}")  # Debug print
+
+        # Verify the branch and original base
+        branch_exists = subprocess.check_output(
+            ["git", "rev-parse", "--verify", branch_name]
         ).decode().strip()
+        print(f"Branch exists: {branch_exists}")  # Debug print
 
-        if original_parent != current_parent:
-            rebased_commits.append(commit)
+        # Get all commits on the branch since the original base
+        log_command = ["git", "log", f"{original_base}..{branch_name}", "--format=%H"]
+        print(f"Running command: {' '.join(log_command)}")  # Debug print
+        commits = subprocess.check_output(log_command).decode().splitlines()
+        print(f"Commits: {commits}")  # Debug print
 
-    return rebased_commits
+        if not commits:
+            print("No commits found.")
+            return []
+
+        rebased_commits = []
+        for commit in commits:
+            # Check if the commit's parent is different from the original parent
+            original_parent = subprocess.check_output(
+                ["git", "rev-parse", f"{commit}^"]
+            ).decode().strip()
+            current_parent = subprocess.check_output(
+                ["git", "rev-parse", f"{commit}~1"]
+            ).decode().strip()
+
+            if original_parent != current_parent:
+                rebased_commits.append(commit)
+
+        return rebased_commits
+
+    except subprocess.CalledProcessError as e:
+        print(f"An error occurred: {e}")
+        return []
 
 if __name__ == "__main__":
-    branch_name = "feat/update-bot"  # Replace with your actual branch name
+    branch_name = "main"  # Replace with your actual branch name
     rebased_commits = find_rebased_commits(branch_name)
 
     if rebased_commits:
