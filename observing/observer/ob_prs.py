@@ -37,13 +37,14 @@ def format_report_prs(merged_prs, unmerged_prs, open_prs, reopen_prs, repo):
         for pr_number in merged_prs:
             pr_details = fetch_pr_details(repo, pr_number)
             if pr_details:
-                merged_field["value"] += f"\n- [{pr_details['title']}]({pr_details['url']}) by [{pr_details['author']}](https://github.com/{pr_details['author']})\n"
+                merged_field["value"] += f"\nΔ [{pr_details['title']}]({pr_details['url']}) by [{pr_details['author']}](https://github.com/{pr_details['author']})\n"
                 merged_field["value"] += "  Commits:\n"
                 for i, commit in enumerate(pr_details["commits"]):
                     if i:
                         merged_field["value"] += f"\n * [{commit['name']}]({commit['link']})"
                     else: 
                         merged_field["value"] += f" * [{commit['name']}]({commit['link']})"
+                merged_field["value"] += "\n"
         fields.append(merged_field)
 
     if unmerged_prs:
@@ -55,13 +56,14 @@ def format_report_prs(merged_prs, unmerged_prs, open_prs, reopen_prs, repo):
         for pr_number in unmerged_prs:
             pr_details = fetch_pr_details(repo, pr_number)
             if pr_details:
-                unmerged_field["value"] += f"\n- [{pr_details['title']}]({pr_details['url']}) by [{pr_details['author']}](https://github.com/{pr_details['author']})\n"
+                unmerged_field["value"] += f"\nΔ [{pr_details['title']}]({pr_details['url']}) by [{pr_details['author']}](https://github.com/{pr_details['author']})\n"
                 unmerged_field["value"] += "  Commits:\n"
                 for i, commit in enumerate(pr_details["commits"]):
                     if i:
                         unmerged_field["value"] += f"\n * [{commit['name']}]({commit['link']})"
                     else: 
                         unmerged_field["value"] += f" * [{commit['name']}]({commit['link']})"
+                unmerged_field["value"] += "\n"
         fields.append(unmerged_field)
 
     if open_prs:
@@ -73,13 +75,14 @@ def format_report_prs(merged_prs, unmerged_prs, open_prs, reopen_prs, repo):
         for pr_number in open_prs:
             pr_details = fetch_pr_details(repo, pr_number)
             if pr_details:
-                open_field["value"] += f"\n- [{pr_details['title']}]({pr_details['url']}) by [{pr_details['author']}](https://github.com/{pr_details['author']})\n"
+                open_field["value"] += f"\nΔ [{pr_details['title']}]({pr_details['url']}) by [{pr_details['author']}](https://github.com/{pr_details['author']})\n"
                 open_field["value"] += "  Commits:\n"
                 for i, commit in enumerate(pr_details["commits"]):
                     if i:
                         open_field["value"] += f"\n * [{commit['name']}]({commit['link']})"
                     else: 
                         open_field["value"] += f" * [{commit['name']}]({commit['link']})"
+                open_field["value"] += "\n"
         fields.append(open_field)
 
     if reopen_prs:
@@ -91,13 +94,14 @@ def format_report_prs(merged_prs, unmerged_prs, open_prs, reopen_prs, repo):
         for pr_number in reopen_prs:
             pr_details = fetch_pr_details(repo, pr_number)
             if pr_details:
-                reopen_field["value"] += f"\n- [{pr_details['title']}]({pr_details['url']}) by [{pr_details['author']}](https://github.com/{pr_details['author']})\n"
+                reopen_field["value"] += f"\nΔ [{pr_details['title']}]({pr_details['url']}) by [{pr_details['author']}](https://github.com/{pr_details['author']})\n"
                 reopen_field["value"] += "  Commits:\n"
                 for i, commit in enumerate(pr_details["commits"]):
                     if i:
                         reopen_field["value"] += f"\n * [{commit['name']}]({commit['link']})"
                     else: 
                         reopen_field["value"] += f" * [{commit['name']}]({commit['link']})"
+                reopen_field["value"] += "\n"
         fields.append(reopen_field)
 
     embed = {
